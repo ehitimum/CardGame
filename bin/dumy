@@ -7,12 +7,30 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class App {
+    public static void main(String[] args) throws Exception {
+        ArrayList<Integer> mainDec = new ArrayList<>();
+        ArrayList<Integer> playerA = new ArrayList<>();
+        ArrayList<Integer> playerB = new ArrayList<>();
 
-    int count1 = 0;
-    int count2 = 0;
+        Integer[] elements = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+        mainDec.addAll(Arrays.asList(elements));
+        System.out.println(mainDec.size());
+        Collections.shuffle(mainDec);
+        playerA.addAll(mainDec.subList(0, 5));
+        playerB.addAll(mainDec.subList(5, 10));
+        for (Integer element : playerA) {
+            mainDec.remove(element);
+        }
 
-    
-    void game(ArrayList<Integer> playerA, ArrayList<Integer> playerB){
+        for (Integer element : playerB) {
+            mainDec.remove(element);
+        }
+        System.out.println("Original ArrayList: " + mainDec);
+        System.out.println(mainDec.size());
+        System.out.println("New ArrayList 1: " + playerA);
+        System.out.println("New ArrayList 2: " + playerB);
+        int count1 = 0, count2 = 0;
+
         Random random = new Random();
         int randomIndex = random.nextInt(playerA.size());
         Integer ranelement = playerA.get(randomIndex);
@@ -40,7 +58,7 @@ public class App {
                 // Check if the sum of two elements is equal to the random element
                     if (firstElement + secondElement == ranelement) {
                         // Remove the three elements from both ArrayLists
-                        this.count1++;
+                        count1++;
                         pairfound = 1;
                         elementsToRemove2.add(ranelement);
                         elementsToRemove.add(firstElement);
@@ -57,7 +75,7 @@ public class App {
         }
 
         if (elementsToRemove2.isEmpty() && elementsToRemove.isEmpty()) {
-            this.count2++;
+            count2++;
         }
 
         // Removing the cards after each round
@@ -69,39 +87,14 @@ public class App {
             playerB.remove(val2-1);  
         }
 
+        
+
+
         // Print the updated ArrayLists
         System.out.println("Updated ArrayList 1: " + playerA);
         System.out.println("Updated ArrayList 2: " + playerB);
-        System.out.println("Player A points: " + this.count1 + " Player B points: " + this.count2);
+        System.out.println("Player A points: " + count1 + " Player B points: " + count2);
         System.out.println("Removed pair indices: " + removedPairIndices);
-
-
-    }
-    public static void main(String[] args) throws Exception {
-        App app = new App();
-        ArrayList<Integer> mainDec = new ArrayList<>();
-        ArrayList<Integer> playerA = new ArrayList<>();
-        ArrayList<Integer> playerB = new ArrayList<>();
-
-        Integer[] elements = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-        mainDec.addAll(Arrays.asList(elements));
-        System.out.println(mainDec.size());
-        Collections.shuffle(mainDec);
-        playerA.addAll(mainDec.subList(0, 5));
-        playerB.addAll(mainDec.subList(5, 10));
-        for (Integer element : playerA) {
-            mainDec.remove(element);
-        }
-
-        for (Integer element : playerB) {
-            mainDec.remove(element);
-        }
-        System.out.println("Original ArrayList: " + mainDec);
-        System.out.println(mainDec.size());
-        System.out.println("New ArrayList 1: " + playerA);
-        System.out.println("New ArrayList 2: " + playerB);
-
-        app.game(playerA, playerB);
 
         playerA.add(mainDec.get(0));
         mainDec.remove(0);
