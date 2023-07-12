@@ -78,19 +78,14 @@ public class App {
             count2++;
         }
 
-     
+        // Removing the cards after each round
         playerA.remove(randomIndex);
-        
-        
-        playerB.removeAll(elementsToRemove);
-        // int val1 = removedPairIndices.get(0);
-        // int val2 = removedPairIndices.get(1);
-        // playerB.remove(val1);
-        // playerB.remove(val2);
-        // if(removedPairIndices.isEmpty()==false){
-        //     playerB.remove(removedPairIndices.get(0));
-        //     playerB.remove(removedPairIndices.get(1));            
-        // }
+        if(removedPairIndices.isEmpty()==false){
+            int val1 = removedPairIndices.get(0);
+            int val2 = removedPairIndices.get(1);
+            playerB.remove(val1);
+            playerB.remove(val2-1);  
+        }
 
         
 
@@ -112,7 +107,10 @@ public class App {
             mainDec.remove(i);
         }
         System.out.println(mainDec.size());
-        
+
+        System.out.println("Updated ArrayList 1: " + playerA);
+        System.out.println("Updated ArrayList 2: " + playerB);
+        System.out.println("Updated ArrayList: " + mainDec);
 
 
     }
