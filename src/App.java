@@ -41,44 +41,58 @@ public class App {
 
         Iterator<Integer> iterator = playerB.iterator();
         int index = 0;
+        int pairfound = 0;
         while (iterator.hasNext()) {
             int firstElement = iterator.next();
 
             // Iterate again starting from the next element
             Iterator<Integer> secondIterator = playerB.listIterator(index + 1);
             int innerIndex = index + 1;
-            while (secondIterator.hasNext()) {
+            if(pairfound==1){
+                break;
+            }
+            else{
+                while (secondIterator.hasNext()) {
                 int secondElement = secondIterator.next();
 
                 // Check if the sum of two elements is equal to the random element
-                if (firstElement + secondElement == ranelement) {
-                    // Remove the three elements from both ArrayLists
-                    count1++;
-                    elementsToRemove2.add(ranelement);
-                    elementsToRemove.add(firstElement);
-                    elementsToRemove.add(secondElement);
-                    removedPairIndices.add(index);
-                    removedPairIndices.add(innerIndex);
-                    break; // Break the inner loop after removing the elements
+                    if (firstElement + secondElement == ranelement) {
+                        // Remove the three elements from both ArrayLists
+                        count1++;
+                        pairfound = 1;
+                        elementsToRemove2.add(ranelement);
+                        elementsToRemove.add(firstElement);
+                        elementsToRemove.add(secondElement);
+                        removedPairIndices.add(index);
+                        removedPairIndices.add(innerIndex);
+                        break; // Break the inner loop after removing the elements
+                    }
+                    innerIndex++;
                 }
-                innerIndex++;
+                index++;
             }
-            index++;
+            
         }
 
         if (elementsToRemove2.isEmpty() && elementsToRemove.isEmpty()) {
             count2++;
         }
 
-        if(elementsToRemove2.isEmpty()==false){
-            playerA.remove(randomIndex);
-        }
+     
+        playerA.remove(randomIndex);
+        
         
         playerB.removeAll(elementsToRemove);
+        // int val1 = removedPairIndices.get(0);
+        // int val2 = removedPairIndices.get(1);
+        // playerB.remove(val1);
+        // playerB.remove(val2);
         // if(removedPairIndices.isEmpty()==false){
         //     playerB.remove(removedPairIndices.get(0));
         //     playerB.remove(removedPairIndices.get(1));            
         // }
+
+        
 
 
         // Print the updated ArrayLists
@@ -86,6 +100,21 @@ public class App {
         System.out.println("Updated ArrayList 2: " + playerB);
         System.out.println("Player A points: " + count1 + " Player B points: " + count2);
         System.out.println("Removed pair indices: " + removedPairIndices);
+
+        playerA.add(mainDec.get(0));
+        mainDec.remove(0);
+        System.out.println(mainDec.size());
+
+        int limit = 5 - playerB.size();
+
+        for(int i=0; i<limit; i++){
+            playerB.add(mainDec.get(i));
+            mainDec.remove(i);
+        }
+        System.out.println(mainDec.size());
+        
+
+
     }
 }
 
