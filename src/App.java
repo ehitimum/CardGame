@@ -9,12 +9,14 @@ public class App {
 
 
     void game(ArrayList<Integer> playerA, ArrayList<Integer> playerB){
+        //Selecting Cards randomly from the current lead player
         Random random = new Random();
         int randomIndex = random.nextInt(playerA.size());
         Integer randomCard = playerA.get(randomIndex);
         System.out.println("Random Element: " + randomCard);
         ArrayList<Integer> removedPairIndices = new ArrayList<>();
 
+        //Finding pair by iterating
         Iterator<Integer> iterator = playerB.iterator();
         int index = 0;
         int pairfound = 0;//flagging if a pair is found.
@@ -63,6 +65,7 @@ public class App {
         System.out.println("Player A's points: " + this.count1 + " Player B's points: " + this.count2);
         System.out.println("Removed pair indices: " + removedPairIndices);
     }
+
     public static void main(String[] args) throws Exception {
         App app = new App();
         Card_assign cards = new Card_assign();
@@ -75,6 +78,10 @@ public class App {
         while(Card.mainDec.size()!=0){
             
             if(round %2 == 0 ){
+
+                System.out.println("Round: "+round);
+                System.out.println("Player A's current 5 cards: " + Card.playerA);
+                System.out.println("Player B's current 5 cards: " + Card.playerB);
                 app.game(Card.playerB, Card.playerA);
                 Card.playerB.add(Card.mainDec.get(0));
                 Card.mainDec.remove(0);
@@ -91,8 +98,13 @@ public class App {
                 System.out.println("Updated player B's dec after round-"+round+": " + Card.playerB);
                 System.out.println("Updated player A's dec after round-"+round+": " + Card.playerA);
                 System.out.println("Updated Main Dec of cards after round-"+round+": " + Card.mainDec);
+                System.out.println("------------------------------------------");
+
             }
             else{
+                System.out.println("Round: "+round);
+                System.out.println("Player A's current 5 cards: " + Card.playerA);
+                System.out.println("Player B's current 5 cards: " + Card.playerB);
                 app.game(Card.playerA, Card.playerB);
                 Card.playerA.add(Card.mainDec.get(0));
                 Card.mainDec.remove(0);
@@ -109,6 +121,8 @@ public class App {
                 System.out.println("Updated player A's dec after round-"+round+": " + Card.playerA);
                 System.out.println("Updated player B's dec after round-"+round+": " + Card.playerB);
                 System.out.println("Updated Main Dec of cards after round-"+round+": " + Card.mainDec);
+                System.out.println("------------------------------------------");
+
             }
             round++;
         }
@@ -123,6 +137,7 @@ public class App {
             System.out.println("Winner: Player B = "+app.count2+" Loser: "+app.count1);
         }
 
+       
 
         
 

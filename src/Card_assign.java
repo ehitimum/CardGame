@@ -10,6 +10,7 @@ public class Card_assign implements Card{
         System.out.println("Original Main Dec of Cards: "+mainDec);
         System.out.println(mainDec.size());
         Collections.shuffle(mainDec);
+        System.out.println("After Suffeling Main Dec of Cards: "+mainDec);
     }
 
     @Override
@@ -30,6 +31,7 @@ public class Card_assign implements Card{
             mainDec.remove(element);
         }
         System.out.println("Player B's initial 5 cards: " + playerB);
+        System.out.println("-------------------------------");
     }
 
 }
