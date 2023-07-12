@@ -1,14 +1,13 @@
+import java.util.ArrayList;
+
 public interface Card{
-    // void maincards(Integer[] elements){
-    //     ArrayList<Integer> mainDec = new ArrayList<>();
-    //     mainDec.addAll(Arrays.asList(elements));
-    //     System.out.println("Original Main Dec of Cards: "+mainDec);
-    //     System.out.println(mainDec.size());
-    //     Collections.shuffle(mainDec);
-    // }
+
+    ArrayList<Integer> mainDec = new ArrayList<>();
+    ArrayList<Integer> playerA = new ArrayList<>();
+    ArrayList<Integer> playerB = new ArrayList<>();
     public void maincards(Integer[] elements);
 
-    public void playerA();
+    public void player_A();
 
-    public void playerB();
+    public void player_B();
 }
