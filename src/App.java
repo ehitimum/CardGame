@@ -11,7 +11,7 @@ public class App {
     int count1 = 0;
     int count2 = 0;
 
-    
+
     void game(ArrayList<Integer> playerA, ArrayList<Integer> playerB){
         Random random = new Random();
         int randomIndex = random.nextInt(playerA.size());
@@ -70,10 +70,12 @@ public class App {
         }
 
         // Print the updated ArrayLists
-        System.out.println("Updated ArrayList 1: " + playerA);
-        System.out.println("Updated ArrayList 2: " + playerB);
-        System.out.println("Player A points: " + this.count1 + " Player B points: " + this.count2);
+        System.out.println("Player A's current cards: " + playerA);
+        System.out.println("Player B's current cards: " + playerB);
+        System.out.println("Player A's points: " + this.count1 + " Player B's points: " + this.count2);
         System.out.println("Removed pair indices: " + removedPairIndices);
+
+        
 
 
     }
@@ -85,10 +87,12 @@ public class App {
 
         Integer[] elements = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
         mainDec.addAll(Arrays.asList(elements));
+        System.out.println("Original Main Dec of Cards: "+mainDec);
         System.out.println(mainDec.size());
         Collections.shuffle(mainDec);
         playerA.addAll(mainDec.subList(0, 5));
         playerB.addAll(mainDec.subList(5, 10));
+
         for (Integer element : playerA) {
             mainDec.remove(element);
         }
@@ -96,28 +100,68 @@ public class App {
         for (Integer element : playerB) {
             mainDec.remove(element);
         }
-        System.out.println("Original ArrayList: " + mainDec);
+        System.out.println("MainDec of Cards after playerA and playerB taken 5 cards: " + mainDec);
         System.out.println(mainDec.size());
-        System.out.println("New ArrayList 1: " + playerA);
-        System.out.println("New ArrayList 2: " + playerB);
+        System.out.println("Player A's initial 5 cards: " + playerA);
+        System.out.println("Player B's initial 5 cards: " + playerB);
+        int round = 1;
+        while(mainDec.size()!=0){
+            
+            if(round %2 != 0 ){
+                app.game(playerA, playerB);
+                playerA.add(mainDec.get(0));
+                mainDec.remove(0);
+                System.out.println(mainDec.size());
 
-        app.game(playerA, playerB);
+                int limit = 5 - playerB.size();
 
-        playerA.add(mainDec.get(0));
-        mainDec.remove(0);
-        System.out.println(mainDec.size());
+                for(int i=0; i<limit; i++){
+                    playerB.add(mainDec.get(i));
+                    mainDec.remove(i);
+                }
+                System.out.println(mainDec.size());
 
-        int limit = 5 - playerB.size();
+                System.out.println("Updated player A's dec after round-"+round+": " + playerA);
+                System.out.println("Updated player B's dec after round-"+round+": " + playerB);
+                System.out.println("Updated Main Dec of cards after round-"+round+": " + mainDec);
+            }
+            else{
+                app.game(playerB, playerA);
+                playerB.add(mainDec.get(0));
+                mainDec.remove(0);
+                System.out.println(mainDec.size());
 
-        for(int i=0; i<limit; i++){
-            playerB.add(mainDec.get(i));
-            mainDec.remove(i);
+                int limit = 5 - playerA.size();
+
+                for(int i=0; i<limit; i++){
+                    playerA.add(mainDec.get(i));
+                    mainDec.remove(i);
+                }
+                System.out.println(mainDec.size());
+
+                System.out.println("Updated player B's dec after round-"+round+": " + playerB);
+                System.out.println("Updated player A's dec after round-"+round+": " + playerA);
+                System.out.println("Updated Main Dec of cards after round-"+round+": " + mainDec);
+            }
+            round++;
         }
-        System.out.println(mainDec.size());
 
-        System.out.println("Updated ArrayList 1: " + playerA);
-        System.out.println("Updated ArrayList 2: " + playerB);
-        System.out.println("Updated ArrayList: " + mainDec);
+        if(app.count1 > app.count2){
+            System.out.println("Winner: Player A = "+app.count1+" Loser: "+app.count2);
+        }
+        else if(app.count1 == app.count2){
+            System.out.println("The match is tied. Player A: "+app.count1+" Player B: "+app.count2);
+        }
+        else{
+            System.out.println("Winner: Player B = "+app.count2+" Loser: "+app.count1);
+        }
+
+
+        
+
+        
+
+
 
 
     }
