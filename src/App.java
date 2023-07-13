@@ -4,11 +4,14 @@ import java.util.Random;
 
 public class App {
 
-    int count1 = 0;
-    int count2 = 0;
+    int count1;
+    int count2;
 
 
     void game(ArrayList<Integer> playerA, ArrayList<Integer> playerB){
+        
+        this.count1 = 0;
+        this.count2 = 0;
         //Selecting Cards randomly from the current lead player
         Random random = new Random();
         int randomIndex = random.nextInt(playerA.size());
@@ -20,8 +23,10 @@ public class App {
         Iterator<Integer> iterator = playerB.iterator();
         int index = 0;
         int pairfound = 0;//flagging if a pair is found.
+
+        //Simple loop for finding pairs. Loop will end if a pair is found
         while (iterator.hasNext()) {
-            int firstElement = iterator.next();
+            int firstCard = iterator.next();
 
             // Iterate again starting from the next element
             Iterator<Integer> secondIterator = playerB.listIterator(index + 1);
@@ -31,8 +36,8 @@ public class App {
             }
             else{
                 while (secondIterator.hasNext()) {
-                int secondElement = secondIterator.next();
-                    if (firstElement + secondElement == randomCard) { 
+                int secondCard = secondIterator.next();
+                    if (firstCard + secondCard == randomCard) { 
                         this.count1++;
                         pairfound = 1;
                         removedPairIndices.add(index);
@@ -62,38 +67,52 @@ public class App {
         // Print the updated ArrayLists
         System.out.println("Player A's current cards: " + playerA);
         System.out.println("Player B's current cards: " + playerB);
-        System.out.println("Player A's points: " + this.count1 + " Player B's points: " + this.count2);
         System.out.println("Removed pair indices: " + removedPairIndices);
     }
 
     public static void main(String[] args) throws Exception {
         App app = new App();
         Card_assign cards = new Card_assign();
+
         Integer[] elements = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+        //All the 32 cards are regeistered as their sequence. I removed H, C, D to simplify.
         cards.maincards(elements);
         cards.player_A();
         cards.player_B();
 
-        int round = 1;
+        int round = 1;//A round variable to keep track of when A is in lead or B is in lead.
+        int playerApoint=0, playerBpoint=0;
+
+        //A loop to automate the process
         while(Card.mainDec.size()!=0){
-            
+            //All odd number of round is A and even is B
             if(round %2 == 0 ){
 
                 System.out.println("Round: "+round);
                 System.out.println("Player A's current 5 cards: " + Card.playerA);
                 System.out.println("Player B's current 5 cards: " + Card.playerB);
-                app.game(Card.playerB, Card.playerA);
+
+                app.game(Card.playerB, Card.playerA);//For even round method will get game(B, A)
+
                 Card.playerB.add(Card.mainDec.get(0));
                 Card.mainDec.remove(0);
                 System.out.println(Card.mainDec.size());
 
                 int limit = 5 - Card.playerA.size();
-
-                for(int i=0; i<limit; i++){
-                    Card.playerA.add(Card.mainDec.get(i));
-                    Card.mainDec.remove(i);
+                if(Card.mainDec.size()>3){
+                    for(int i=0; i<limit; i++){
+                        Card.playerA.add(Card.mainDec.get(i));
+                        Card.mainDec.remove(i);
+                    }
                 }
+                
+                
                 System.out.println(Card.mainDec.size());
+                playerApoint += app.count2;
+                playerBpoint += app.count1;
+
+
+                System.out.println("Player A's points: " + playerApoint + " Player B's points: " + playerBpoint);
 
                 System.out.println("Updated player B's dec after round-"+round+": " + Card.playerB);
                 System.out.println("Updated player A's dec after round-"+round+": " + Card.playerA);
@@ -105,18 +124,25 @@ public class App {
                 System.out.println("Round: "+round);
                 System.out.println("Player A's current 5 cards: " + Card.playerA);
                 System.out.println("Player B's current 5 cards: " + Card.playerB);
-                app.game(Card.playerA, Card.playerB);
+
+                app.game(Card.playerA, Card.playerB);//For odd round method will get game(A, B)
+
                 Card.playerA.add(Card.mainDec.get(0));
                 Card.mainDec.remove(0);
                 System.out.println(Card.mainDec.size());
 
                 int limit = 5 - Card.playerB.size();
-
-                for(int i=0; i<limit; i++){
-                    Card.playerB.add(Card.mainDec.get(i));
-                    Card.mainDec.remove(i);
+                if(Card.mainDec.size()>3){
+                    for(int i=0; i<limit; i++){
+                        Card.playerB.add(Card.mainDec.get(i));
+                        Card.mainDec.remove(i);
+                    }
                 }
                 System.out.println(Card.mainDec.size());
+                playerApoint += app.count1;
+                playerBpoint += app.count2;
+
+                System.out.println("Player A's points: " + playerApoint + " Player B's points: " + playerBpoint);
 
                 System.out.println("Updated player A's dec after round-"+round+": " + Card.playerA);
                 System.out.println("Updated player B's dec after round-"+round+": " + Card.playerB);
@@ -127,14 +153,14 @@ public class App {
             round++;
         }
 
-        if(app.count1 > app.count2){
-            System.out.println("Winner: Player A = "+app.count1+" Loser: "+app.count2);
+        if(playerApoint > playerBpoint){
+            System.out.println("Winner: Player A = "+playerApoint+" Loser: "+playerBpoint);
         }
-        else if(app.count1 == app.count2){
-            System.out.println("The match is tied. Player A: "+app.count1+" Player B: "+app.count2);
+        else if(playerApoint == playerBpoint){
+            System.out.println("The match is tied. Player A: "+playerApoint+" Player B: "+playerBpoint);
         }
         else{
-            System.out.println("Winner: Player B = "+app.count2+" Loser: "+app.count1);
+            System.out.println("Winner: Player B = "+playerBpoint+" Loser: "+playerApoint);
         }
 
        
