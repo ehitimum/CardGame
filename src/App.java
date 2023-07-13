@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
+import java.util.Scanner;
 
 public class App {
 
@@ -12,11 +12,17 @@ public class App {
         
         this.count1 = 0;
         this.count2 = 0;
-        //Selecting Cards randomly from the current lead player
-        Random random = new Random();
-        int randomIndex = random.nextInt(playerA.size());
+        System.out.println("Input card's index number please: ");
+        Scanner scanner = new Scanner(System.in);
+        int randomIndex=scanner.nextInt();
+        if(randomIndex>(playerA.size()-1) ){
+            System.out.println("The card number you selected is not available. Please choose again from the above 5 cards: ");
+            randomIndex = scanner.nextInt();
+
+        }
+        
         Integer randomCard = playerA.get(randomIndex);
-        System.out.println("Random Element: " + randomCard);
+        System.out.println("Selected Card is: " + randomCard);
         ArrayList<Integer> removedPairIndices = new ArrayList<>();
 
         //Finding pair by iterating
@@ -65,9 +71,9 @@ public class App {
         }
 
         // Print the updated ArrayLists
-        System.out.println("Player A's current cards: " + playerA);
-        System.out.println("Player B's current cards: " + playerB);
-        System.out.println("Removed pair indices: " + removedPairIndices);
+        // System.out.println("Player A's current cards: " + playerA);
+        // System.out.println("Player B's current cards: " + playerB);
+        // System.out.println("Removed pair of indices: " + removedPairIndices);
     }
 
     public static void main(String[] args) throws Exception {
@@ -89,15 +95,11 @@ public class App {
             if(round %2 == 0 ){
 
                 System.out.println("Round: "+round);
-                System.out.println("Player A's current 5 cards: " + Card.playerA);
                 System.out.println("Player B's current 5 cards: " + Card.playerB);
 
                 app.game(Card.playerB, Card.playerA);//For even round method will get game(B, A)
-
                 Card.playerB.add(Card.mainDec.get(0));
                 Card.mainDec.remove(0);
-                System.out.println(Card.mainDec.size());
-
                 int limit = 5 - Card.playerA.size();
                 if(Card.mainDec.size()>3){
                     for(int i=0; i<limit; i++){
@@ -105,32 +107,25 @@ public class App {
                         Card.mainDec.remove(i);
                     }
                 }
-                
-                
-                System.out.println(Card.mainDec.size());
+                System.out.println("Remaining Card's in the deck is: "+Card.mainDec.size());
                 playerApoint += app.count2;
                 playerBpoint += app.count1;
-
-
+                if(app.count1> app.count2){
+                    System.out.println("Player B wins this round. ");
+                }else{
+                    System.out.println("Player A wins this round. ");
+                }
                 System.out.println("Player A's points: " + playerApoint + " Player B's points: " + playerBpoint);
-
-                System.out.println("Updated player B's dec after round-"+round+": " + Card.playerB);
-                System.out.println("Updated player A's dec after round-"+round+": " + Card.playerA);
-                System.out.println("Updated Main Dec of cards after round-"+round+": " + Card.mainDec);
                 System.out.println("------------------------------------------");
 
             }
             else{
                 System.out.println("Round: "+round);
                 System.out.println("Player A's current 5 cards: " + Card.playerA);
-                System.out.println("Player B's current 5 cards: " + Card.playerB);
-
                 app.game(Card.playerA, Card.playerB);//For odd round method will get game(A, B)
 
                 Card.playerA.add(Card.mainDec.get(0));
                 Card.mainDec.remove(0);
-                System.out.println(Card.mainDec.size());
-
                 int limit = 5 - Card.playerB.size();
                 if(Card.mainDec.size()>3){
                     for(int i=0; i<limit; i++){
@@ -138,15 +133,15 @@ public class App {
                         Card.mainDec.remove(i);
                     }
                 }
-                System.out.println(Card.mainDec.size());
+                System.out.println("Remaining Card's in the deck is: "+Card.mainDec.size());
                 playerApoint += app.count1;
                 playerBpoint += app.count2;
-
+                if(app.count1> app.count2){
+                    System.out.println("Player A wins this round. ");
+                }else{
+                    System.out.println("Player B wins this round. ");
+                }
                 System.out.println("Player A's points: " + playerApoint + " Player B's points: " + playerBpoint);
-
-                System.out.println("Updated player A's dec after round-"+round+": " + Card.playerA);
-                System.out.println("Updated player B's dec after round-"+round+": " + Card.playerB);
-                System.out.println("Updated Main Dec of cards after round-"+round+": " + Card.mainDec);
                 System.out.println("------------------------------------------");
 
             }
