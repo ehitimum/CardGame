@@ -1,13 +1,28 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
 
-    int count1;
-    int count2;
+    private int count1;
+    private int count2;
 
-
+    public List<Integer> twoSum(ArrayList<Integer> playerB, int target) {
+        HashMap<Integer, Integer> hash = new HashMap<>();
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < playerB.size(); i++) {
+            int complement = target - playerB.get(i);
+            if (hash.containsKey(complement)) {
+                result.add(i);
+                result.add(hash.get(complement));
+                return result;
+            }
+            hash.put(playerB.get(i), i);
+        }
+        return result;
+    }      
     void game(ArrayList<Integer> playerA, ArrayList<Integer> playerB){
         
         this.count1 = 0;
@@ -20,60 +35,20 @@ public class App {
             randomIndex = scanner.nextInt();
 
         }
-        
         Integer randomCard = playerA.get(randomIndex);
         System.out.println("Selected Card is: " + randomCard);
-        ArrayList<Integer> removedPairIndices = new ArrayList<>();
+        List<Integer> result = twoSum(playerB, randomCard);
 
-        //Finding pair by iterating
-        Iterator<Integer> iterator = playerB.iterator();
-        int index = 0;
-        int pairfound = 0;//flagging if a pair is found.
-
-        //Simple loop for finding pairs. Loop will end if a pair is found
-        while (iterator.hasNext()) {
-            int firstCard = iterator.next();
-
-            // Iterate again starting from the next element
-            Iterator<Integer> secondIterator = playerB.listIterator(index + 1);
-            int innerIndex = index + 1;
-            if(pairfound==1){
-                break;
-            }
-            else{
-                while (secondIterator.hasNext()) {
-                int secondCard = secondIterator.next();
-                    if (firstCard + secondCard == randomCard) { 
-                        this.count1++;
-                        pairfound = 1;
-                        removedPairIndices.add(index);
-                        removedPairIndices.add(innerIndex);
-                        break; 
-                    }
-                    innerIndex++;
-                }
-                index++;
-            }
-            
-        }
-
-        if(removedPairIndices.isEmpty()){
+        if(result.isEmpty()){
             this.count2++;
         }
-
-        // Removing the cards after each round
         playerA.remove(randomIndex);
-        if(removedPairIndices.isEmpty()==false){
-            int val1 = removedPairIndices.get(0);
-            int val2 = removedPairIndices.get(1);
+        if(result.isEmpty()==false){
+            int val1 = result.get(0);
+            int val2 = result.get(1);
             playerB.remove(val1);
             playerB.remove(val2-1);  
         }
-
-        // Print the updated ArrayLists
-        // System.out.println("Player A's current cards: " + playerA);
-        // System.out.println("Player B's current cards: " + playerB);
-        // System.out.println("Removed pair of indices: " + removedPairIndices);
     }
 
     public static void main(String[] args) throws Exception {
@@ -157,15 +132,6 @@ public class App {
         else{
             System.out.println("Winner: Player B = "+playerBpoint+" Loser: "+playerApoint);
         }
-
-       
-
-
-        
-
-
-
-
     }
 }
 
